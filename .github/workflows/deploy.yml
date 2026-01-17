@@ -13,9 +13,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'  # or your preferred version
+
+    - name: Install dependencies and build
+      run: |
+        npm install
+        npm run build
+      working-directory: ./coffeShop  # Update this to where your package.json is located
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: coffeShopApp
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: .
+        package: ./coffeShop/build  # Update to point to your build output folder
